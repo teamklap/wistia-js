@@ -6,7 +6,7 @@
 
 module.exports = function (apiKey, options) {
     options.api = 'upload';
-    var _util = require('../util.js')(apiKey, options);
+    var _util = require('./util.js')(apiKey, options);
 
     var WistiaUpload = {
         /**
