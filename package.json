@@ -5,9 +5,9 @@
     "main": "index.js",
     "scripts": {
         "build": "babel src -d lib",
-				"watch": "babel --watch src -d lib",
-        "test": "echo \"Error: no test specified\" && exit 1",
-				"prepublish": "npm run build"
+        "watch": "babel --watch src -d lib",
+        "test": "ava ./test",
+        "prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -27,6 +27,7 @@
     },
     "homepage": "https://github.com/xmaestro/wistia-js#readme",
     "devDependencies": {
+        "ava": "^0.22.0",
         "babel-cli": "^6.26.0",
         "babel-preset-env": "^1.6.0"
     }
