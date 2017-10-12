@@ -6,33 +6,33 @@
 
 module.exports = function (apiKey, options) {
     options.api = 'upload';
-    var _util = require('./util.js')(apiKey, options);
+    const _util = require('./util.js')(apiKey, options);
 
-    var WistiaUpload = {
+    const WistiaUpload = {
         /**
          * Uploads a video to Wistia
          *
-         * @returns {Promise.<}
+         * @returns {Promise.<WistiaData>}
          */
-        upload: function (params) {
+        upload: (params) => {
+			if (params) {
+				params._method = 'POST';
+			}
+
+			params.formEncoded = true;
+
+			if (typeof params.file === "undefined" && typeof params.url === "undefined") {
+				throw new Error('Please provide file or url path!');
+			}
+
 			return new Promise((resolve, reject) => {
-				if (params) {
-					params._method = 'POST';
-				}
-
-				params.formEncoded = true;
-
-				if (typeof params.file != "undefined" || typeof params.url != "undefined") {
-					_util.buildQuery('', params, function (error, data) {
-						if (error) reject(error);
-						resolve(data);
-					});
-				} else {
-					reject(new Error('Please provide file or url path!'));
-				}
-			});
-        }
-    }
+				_util.buildQuery('', params, function (error, response) {
+					if (error) reject(error);
+					resolve(response);
+				});
+    		});
+    	}
+	}
 
     return WistiaUpload;
 };
