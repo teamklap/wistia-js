@@ -72,7 +72,7 @@ module.exports = function (apiKey, options) {
 					}
 
 					if (response.statusCode == 200 || response.statusCode == 201) {
-						resolve(body);
+						resolve(JSON.parse(body));
 					} else {
 						reject(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
 					}
@@ -93,7 +93,7 @@ module.exports = function (apiKey, options) {
 					}
 
 					if (response.statusCode == 200 || response.statusCode == 201) {
-						resolve(null, body);
+						resolve(JSON.parse(body));
 					} else {
 						reject(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
 					}
