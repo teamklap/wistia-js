@@ -1,11 +1,12 @@
 {
     "name": "wistia-js",
-    "version": "0.0.8",
+    "version": "0.1.0",
     "description": "Wistia api for Node.js",
     "main": "index.js",
     "scripts": {
         "build": "babel src -d lib",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+				"prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
