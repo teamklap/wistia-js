@@ -7,16 +7,15 @@
 var request = require('request');
 
 module.exports = function (apiKey, options) {
-
     return {
         /*
          * @param API endopint {String}
          * @param Params {Object}
          * @param Callback {any}
          */
-        buildQuery: function (endPoint, params, cb) {
+        buildQuery: function (endPoint, params) {
             // Build url
-            var url;
+            let url;
 
             switch (options.api) {
                 case 'upload':
@@ -30,7 +29,7 @@ module.exports = function (apiKey, options) {
 
             url += "?" + "api_password=" + apiKey + "&";
 
-            var reqMethod = 'GET';
+            let reqMethod = 'GET';
 
             if (typeof params._method != "undefined") {
                 reqMethod = params._method;
@@ -41,20 +40,20 @@ module.exports = function (apiKey, options) {
             if (typeof params.formEncoded != 'undefined') {
                 delete params.formEncoded;
 
-                this._sendRequestUrlEncoded(url, params, cb);
+                return this._sendRequestUrlEncoded(url, params);
             } else {
                 //Set params
                 if (params) {
-                    var paramKeys = Object.keys(params);
+                    const paramKeys = Object.keys(params);
 
                     if (paramKeys.length > 0) {
-                        for (var key in paramKeys) {
+                        for (let key in paramKeys) {
                             url += paramKeys[key] + "=" + params[paramKeys[key]] + "&";
                         }
                     }
                 }
 
-                this._sendRequest(encodeURI(url), reqMethod, cb);
+                return this._sendRequest(encodeURI(url), reqMethod);
             }
         },
 
@@ -62,21 +61,23 @@ module.exports = function (apiKey, options) {
          * @param API url {String}
          * @param Callback {any}
          */
-        _sendRequest: function (url, method, cb) {
-            request({
-                url: url,
-                method: method
-            }, function (error, response, body) {
-                if (error) {
-                    return cb(error);
-                }
+        _sendRequest: function (url, method) {
+			return new Promise((resolve, reject) => {
+				request({
+					url: url,
+					method: method
+				}, function (error, response, body) {
+					if (error) {
+						return cb(error);
+					}
 
-                if (response.statusCode == 200 || response.statusCode == 201) {
-                    return cb(null, body);
-                } else {
-                    return cb(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
-                }
-            })
+					if (response.statusCode == 200 || response.statusCode == 201) {
+						resolve(body);
+					} else {
+						reject(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
+					}
+				})
+			})
         },
 
         /*
@@ -84,20 +85,20 @@ module.exports = function (apiKey, options) {
          * @param FormData {Object}
          * @param Callback {any}
          */
-        _sendRequestUrlEncoded: function (url, formData, cb) {
-            request.post({url: url, formData: formData}, function (error, response, body) {
-                if (error) {
-                    return cb(error);
-                }
+        _sendRequestUrlEncoded: function (url, formData) {
+			return new Promise((resolve, reject) => {
+				request.post({url: url, formData: formData}, function (error, response, body) {
+					if (error) {
+						reject(error);
+					}
 
-                if (response.statusCode == 200 || response.statusCode == 201) {
-
-                    return cb(null, body);
-
-                } else {
-					return cb(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
-                }
-            })
+					if (response.statusCode == 200 || response.statusCode == 201) {
+						resolve(null, body);
+					} else {
+						reject(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
+					}
+				});
+			});
         }
     }
 
