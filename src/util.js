@@ -74,7 +74,7 @@ module.exports = function (apiKey, options) {
                 if (response.statusCode == 200 || response.statusCode == 201) {
                     return cb(null, body);
                 } else {
-                    return cb(new Error('Server responded with error: ' + response.statusCode));
+                    return cb(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
                 }
             })
         },
@@ -95,7 +95,7 @@ module.exports = function (apiKey, options) {
                     return cb(null, body);
 
                 } else {
-                    return cb(new Error('Server responded with error: ' + response.statusCode));
+					return cb(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
                 }
             })
         }
