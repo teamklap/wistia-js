@@ -9,20 +9,16 @@ var request = require('request');
 module.exports = function (apiKey, options) {
 
     return {
-
         /*
          * @param API endopint {String}
          * @param Params {Object}
          * @param Callback {any}
          */
         buildQuery: function (endPoint, params, cb) {
-
-            //build url
-
+            // Build url
             var url;
 
             switch (options.api) {
-
                 case 'upload':
                     url = "https://upload.wistia.com/";
                     break;
@@ -37,42 +33,29 @@ module.exports = function (apiKey, options) {
             var reqMethod = 'GET';
 
             if (typeof params._method != "undefined") {
-
                 reqMethod = params._method;
 
                 delete params._method;
-
             }
 
             if (typeof params.formEncoded != 'undefined') {
-
                 delete params.formEncoded;
 
                 this._sendRequestUrlEncoded(url, params, cb);
-
             } else {
-
                 //Set params
                 if (params) {
-
                     var paramKeys = Object.keys(params);
 
                     if (paramKeys.length > 0) {
-
                         for (var key in paramKeys) {
-
                             url += paramKeys[key] + "=" + params[paramKeys[key]] + "&";
-
                         }
-
                     }
-
                 }
 
                 this._sendRequest(encodeURI(url), reqMethod, cb);
-
             }
-
         },
 
         /*
@@ -80,28 +63,20 @@ module.exports = function (apiKey, options) {
          * @param Callback {any}
          */
         _sendRequest: function (url, method, cb) {
-
             request({
                 url: url,
                 method: method
             }, function (error, response, body) {
-
                 if (error) {
                     return cb(error);
                 }
 
                 if (response.statusCode == 200 || response.statusCode == 201) {
-
                     return cb(null, body);
-
                 } else {
-
                     return cb(new Error('Server responded with error: ' + response.statusCode));
-
                 }
-
             })
-
         },
 
         /*
@@ -110,9 +85,7 @@ module.exports = function (apiKey, options) {
          * @param Callback {any}
          */
         _sendRequestUrlEncoded: function (url, formData, cb) {
-
             request.post({url: url, formData: formData}, function (error, response, body) {
-
                 if (error) {
                     return cb(error);
                 }
@@ -122,15 +95,10 @@ module.exports = function (apiKey, options) {
                     return cb(null, body);
 
                 } else {
-
                     return cb(new Error('Server responded with error: ' + response.statusCode));
-
                 }
-
             })
-
         }
-
     }
 
 };
