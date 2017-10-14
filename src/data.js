@@ -4,10 +4,12 @@
  * Wistia Data API => https://wistia.com/doc/data-api
  */
 
+import Util from './util';
+
 module.exports = function (apiKey, options) {
 
-    options.api = "data";
-    var _util = require('./util.js')(apiKey, options);
+    options.apiName = "data";
+    var _util = new Util(apiKey, options);
 
     var WistiaData = {
         /*
@@ -38,33 +40,27 @@ module.exports = function (apiKey, options) {
             });
         },
 
+		/*
+		* @param Callback {any}
+		*/
+		projectList: function () {
+			return _util.buildQuery('projects', {});
+		},
+
         /*
          * @param Project hash id {String}
          * @param Callback {any}
          */
         projectShow: function (project_hash_id, cb) {
-            _util.buildQuery('projects/' + project_hash_id, {}, function (error, data) {
-                return cb(error, data);
-            });
+            return _util.buildQuery('projects/' + project_hash_id);
         },
 
         /*
          * @param Project data {Object}
          * @param Callback {any}
          */
-        projectCreate: function (project_data, cb) {
-            _util.buildQuery('projects', project_data, function (error, data) {
-                return cb(error, data);
-            });
-        },
-
-        /*
-         * @param Callback {any}
-         */
-        projectList: function (cb) {
-            _util.buildQuery('projects', {}, function (error, data) {
-                return cb(error, data);
-            });
+        projectCreate: function (project_data) {
+            return _util.buildQuery('projects', project_data, {reqMethod: 'POST'});
         },
 
         /*
@@ -72,13 +68,11 @@ module.exports = function (apiKey, options) {
          * @param Update project Data {Object}
          * @param Callback {any}
          */
-        projectUpdate: function (project_id, project_data, cb) {
+        projectUpdate: function (project_id, project_data) {
             if (project_data) {
                 project_data._method = 'PUT';
             }
-            _util.buildQuery('projects/' + project_id, project_data, function (error, data) {
-                return cb(error, data);
-            });
+            return _util.buildQuery('projects/' + project_id, project_data);
         },
 
         /*

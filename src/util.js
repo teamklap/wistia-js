@@ -3,8 +3,10 @@ import Debug from 'debug';
 
 const debug = Debug('wistiajs:util');
 
-const WISTIA_UPLOAD_URL = 'https://upload.wistia.com/';
-const WISTIA_DATA_URL = 'https://api.wistia.com/'
+const WISTIA_API_URL = {
+	data: 'https://api.wistia.com/',
+	upload: 'https://upload.wistia.com/'
+}
 
 /*
 * @module
@@ -13,54 +15,44 @@ const WISTIA_DATA_URL = 'https://api.wistia.com/'
 */
 export default class Util {
 	constructor(apiKey, {apiName, apiVersion = 'v1', responseFormat = 'json'}) {
+		/**
+		 * Builds the first part of a Wistia API url
+		 *
+		 * URLs looks like e.g. https://api.wistia.com/v1/medias.json?api_password=xyz123
+		 *
+		 * @param  {string} endPoint Requested resource on the API
+		 * @return {string} url Corresponds to the Wistia api type and the end point requested
+		 */
 		this._buildUrl = (endPoint) => {
-			let url;
+			let url = WISTIA_API_URL[apiName];
 
-			switch (apiName) {
-				case 'upload':
-				url = "https://upload.wistia.com/";
-				break;
-
-				case 'data':
-				url = "https://api.wistia.com/" + apiVersion + '/' + endPoint + "." + responseFormat;
-				break;
+			if (apiName !== 'upload') {
+				url += apiVersion + '/' + endPoint + "." + responseFormat;
 			}
 
-			url += "?" + "api_password=" + apiKey + "&";
-
-			return url;
+			return url += `?api_password=${apiKey}&`;
 		}
 	}
 
-	buildQuery(endPoint, params = {}) {
+	buildQuery(endPoint, params = {}, {reqMethod = 'GET', formEncoded = false} = {}) {
 		let url = this._buildUrl(endPoint);
 
-		let reqMethod = 'GET';
-
-		if (typeof params._method != "undefined") {
-			reqMethod = params._method;
-
-			delete params._method;
+		if (formEncoded) {
+			return this._sendRequestUrlEncoded(url, params);
 		}
 
-		if (typeof params.formEncoded != 'undefined') {
-			delete params.formEncoded;
+		// Set params
+		if (params) {
+			const paramKeys = Object.keys(params);
 
-			return this._sendRequestUrlEncoded(url, params);
-		} else {
-			//Set params
-			if (params) {
-				const paramKeys = Object.keys(params);
-
-				if (paramKeys.length > 0) {
-					for (let key in paramKeys) {
-						url += paramKeys[key] + "=" + params[paramKeys[key]] + "&";
-					}
+			if (paramKeys.length > 0) {
+				for (let key in paramKeys) {
+					url += paramKeys[key] + "=" + params[paramKeys[key]] + "&";
 				}
 			}
-
-			return this._sendRequest(encodeURI(url), reqMethod);
 		}
+
+		return this._sendRequest(encodeURI(url), reqMethod);
 	}
 
 	/*
@@ -68,6 +60,7 @@ export default class Util {
 	 * @param Callback {any}
 	 */
 	_sendRequest(url, method) {
+		debug(`Requesting ${method} ${url}`);
 		return new Promise((resolve, reject) => {
 			request({
 				url: url,
@@ -92,6 +85,7 @@ export default class Util {
 	 * @param Callback {any}
 	 */
 	_sendRequestUrlEncoded(url, formData) {
+		debug(`Posting form-data to ${url}`);
 		return new Promise((resolve, reject) => {
 			request.post({url: url, formData: formData}, function (error, response, body) {
 				if (error) {

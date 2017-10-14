@@ -3,9 +3,11 @@
  * @description
  * Wistia Uplaod API => https://wistia.com/doc/upload-api
  */
+import Util from './util';
+
 module.exports = function (apiKey, options) {
-    options.api = 'upload';
-    const _util = require('./util.js')(apiKey, options);
+    options.apiName = 'upload';
+    const _util = new Util(apiKey, options);
 
     const WistiaUpload = {
         /**
@@ -14,17 +16,11 @@ module.exports = function (apiKey, options) {
          * @returns {Promise.<WistiaData>}
          */
         upload: (params) => {
-			if (params) {
-				params._method = 'POST';
-			}
-
-			params.formEncoded = true;
-
 			if (typeof params.file === "undefined" && typeof params.url === "undefined") {
 				throw new Error('Please provide file or url path!');
 			}
 
-			return _util.buildQuery('', params);
+			return _util.buildQuery('', params, {reqMethod: 'POST', formEncoded: true});
     	}
 	}
 
