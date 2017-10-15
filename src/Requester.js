@@ -3,34 +3,30 @@ import Debug from 'debug';
 
 const debug = Debug('wistiajs:util');
 
-const WISTIA_API_URL = {
-	data: 'https://api.wistia.com/',
-	upload: 'https://upload.wistia.com/'
-}
-
 /*
 * @module
 * @description
-* Request utils for module
 */
-export default class Util {
+export default class Requester {
 	constructor(apiKey, {apiName, apiVersion = 'v1', responseFormat = 'json'}) {
 		/**
 		 * Builds the first part of a Wistia API url
 		 *
 		 * URLs looks like e.g. https://api.wistia.com/v1/medias.json?api_password=xyz123
+		 * or https://api.wistia.com/v1/projects/<project-id>/sharings.json
 		 *
 		 * @param  {string} endPoint Requested resource on the API
 		 * @return {string} url Corresponds to the Wistia api type and the end point requested
 		 */
 		this._buildUrl = (endPoint) => {
-			let url = WISTIA_API_URL[apiName];
+			// The Data API URL does not contain the API name
+			if (apiName === 'data') apiName = '';
 
-			if (apiName !== 'upload') {
-				url += apiVersion + '/' + endPoint + "." + responseFormat;
+			if (apiName === 'upload') {
+				return `https://upload.wistia.com/?api_password=${apiKey}&`
 			}
 
-			return url += `?api_password=${apiKey}&`;
+			return `https://api.wistia.com/${apiVersion}/${apiName}/${endPoint}.${responseFormat}?api_password=${apiKey}&`;
 		}
 	}
 
