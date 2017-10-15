@@ -33,14 +33,14 @@ const newProject = await wistia.projects.create({
 
 // Example for Upload API, i.e. using URL
 const videoMetadata = wistiaUpload.upload({
-    project_id: '<WISTIA_PROJECT_ID>',
-    url: 'http://url/to/video.mp4'
+	project_id: '<WISTIA_PROJECT_ID>',
+	url: 'http://url/to/video.mp4'
 });
 
 // Example for Upload API, i.e. using file stream
 const videoMetadata = await wistiaUpload.upload({
-    project_id: '<WISTIA_PROJECT_ID>',
-    file: fs.createReadStream('//path/to/file.mp4')
+	project_id: '<WISTIA_PROJECT_ID>',
+	file: fs.createReadStream('//path/to/file.mp4')
 });
 
 ```
@@ -48,23 +48,25 @@ Where **WISTIA_API_KEY** is the API Password you got from the Wistia dashboard a
 
 ## Wistia Data API Functions
 
-### Accounts
+### [Projects](https://wistia.com/doc/data-api#projects)
 
-- `accountRead(cb)`
-- `accountStats(cb)`
+`wistiaData.projects.`
+- `list()`
+- `show(hashedProjectId)`
+- `create(projectData)`
+- `update(hashedProjectId, projectData)`
+- `delete(hashedProjectId)`
+- `copy(hashedProjectId, copyOptions`)
+
+### [Account](https://wistia.com/doc/data-api#account)
+
+`wistiaData.account.`
+- `list()`
 
 ### Events
 
 - `eventRead(event_key,cb)`
 
-### Projects
-
-- `projectShow(project_hash_id,cb)`
-- `projectCreate(project_data,cb)`
-- `projectList(cb)`
-- `projectUpdate(project_id,project_data,cb)`
-- `projectDelete(project_id,cb)`
-- `projectCopy(project_id,copy_options,cb)`
 
 ### Project Sharings
 
@@ -74,21 +76,24 @@ Where **WISTIA_API_KEY** is the API Password you got from the Wistia dashboard a
 - `projectSharingsUpdate(project_id,sharing_id,project_sharing_data,cb)`
 - `projectSharingsDelete(project_id,sharing_id,cb)`
 
-### Media
+### [Medias](https://wistia.com/doc/data-api#medias)
 
-- `mediaShow(media_id,cb)`
-- `mediaCopy(media_id,copy_options,cb)`
-- `mediaShowStats(media_id,cb)`
-- `mediaUpdate(media_id,media_data,cb)`
-- `mediaDelete(media_hash_id,cb)`
-- `mediaList(project_id,page,per_page,cb)`
+`wistiaData.medias.`
+- `show(hashedMediaId)`
+- `list(hashedMediaId, pagingAndSorting)`
+- `stats(hashedMediaId`
+- `update(hashedMediaId, mediaData)`
+- `delete(hashedMediaId)`
+- `copy(hashedMediaId, copyOptions)`
 
-### Media Customizations
+### [Customizations](https://wistia.com/doc/data-api#customizations)
 
-- `customizationsShow(media_id,cb)`
-- `customizationsCreate(media_id,customization_data,cb)`
-- `customizationsUpdate(media_id,customization_data,cb)`
-- `customizationsDelete(media_id,cb)`
+`wistiaData.customizations.`
+
+- `show(hashedMediaId)`
+- `create(hashedMediaId, customizationData)`
+- `update(hashedMediaId, customizationData)`
+- `delete(hashedMediaId)`
 
 ### Captions
 
