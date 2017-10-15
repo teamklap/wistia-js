@@ -1,8 +1,7 @@
 "use strict";
 
-const WistiaData = require('./lib/data').default;
-// import WistiaData from './lib/data';
-// import WistiaUpload from
+const DataApi = require('./lib/DataApi').default;
+const UploadApi = require('./lib/UploadApi').default;
 /*
  * @module
  * @description
@@ -13,23 +12,16 @@ module.exports = function (apiKey, {apiVersion = 'v1', responseFormat = 'json'} 
         throw new Exception('No key provided!');
     }
 
-    // opts = opts || {};
-	//
-    // var options = {
-    //     version: opts.version || 'v1',
-    //     format: opts.format || 'json'
-    // };
-    //
     console.log('config', apiVersion, responseFormat)
 
     return {
         //Data API ==> https://wistia.com/doc/data-api
-        WistiaData: function () {
-            return new WistiaData(apiKey, {apiName: 'data', apiVersion, responseFormat})
+        dataApi: function () {
+            return new DataApi(apiKey, {apiName: 'data', apiVersion, responseFormat})
         },
         //Upload API ==> https://wistia.com/doc/upload-api
-        WistiaUpload: function () {
-            return require('./lib/upload')(apiKey, {apiName: 'upload', apiVersion, responseFormat})
+        uploadApi: function () {
+            return new UploadApi(apiKey, {apiName: 'upload', apiVersion, responseFormat})
         }
     }
 
