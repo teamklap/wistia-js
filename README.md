@@ -1,10 +1,10 @@
 
 # wistia-js : Node.js package for Wistia APIs
 
-Includes
+So far tested for:
 
-- Data API [Wistia data API docs](https://wistia.com/doc/data-api)
-- Upload API [Wistia upload API docs](https://wistia.com/doc/upload-api)
+- [Wistia Data API](https://wistia.com/doc/data-api)
+- [Wistia Upload API](https://wistia.com/doc/upload-api)
 
 Installation
 --------------------------------------
@@ -12,7 +12,7 @@ Installation
 Install it from npm:
 
 ```bash
-npm install wistia-js
+$ npm install wistia-js
 ```
 
 Usage
@@ -20,36 +20,27 @@ Usage
 
 ```js
 
-var Wistia = require('wistia-js')('<WISTIA_API_KEY>');
-var wistiaData = Wistia.WistiaData();
-var WistiaUpload = Wistia.WistiaUpload();
+const wistia = require('wistia-js')('<WISTIA_API_KEY>');
+const wistiaData = Wistia.dataApi();
+const wistiaUpload = Wistia.uploadApi();
 
-//Sample for Data API
-wistiaData.accountRead(function(error,data){
-    if(error){ console.log(error); }
-    console.log(data);
+// Example for Data API
+const accountData = await wistiaData.account.list();
+
+const newProject = await wistia.projects.create({
+	name: 'New Wistia Project',
 });
 
-//Sample for Upload API, i.e. using URL
-WistiaUpload.upload({
+// Example for Upload API, i.e. using URL
+const videoMetadata = wistiaUpload.upload({
     project_id: '<WISTIA_PROJECT_ID>',
     url: 'http://url/to/video.mp4'
-}, function (error, data) {
-    if (error) {
-        console.log(error);
-    }
-    console.log(data);
 });
 
-//Sample for Upload API, i.e. using file stream
-WistiaUpload.upload({
+// Example for Upload API, i.e. using file stream
+const videoMetadata = await wistiaUpload.upload({
     project_id: '<WISTIA_PROJECT_ID>',
     file: fs.createReadStream('//path/to/file.mp4')
-}, function (error, data) {
-    if (error) {
-        console.log(error);
-    }
-    console.log(data);
 });
 
 ```
@@ -109,6 +100,13 @@ Where **WISTIA_API_KEY** is the API Password you got from the Wistia dashboard a
 
 ## Wistia Upload API Functions
 
-- `upload(params,cb)`
+- `upload(params)`
 
-`cb` is the callback function.
+Testing
+--------------------------------------
+* Create `test/integration/config.json` from `test/integration/config.example.json`
+* Then:
+
+```bash
+$ npm run test
+```
