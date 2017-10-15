@@ -3,19 +3,22 @@ export default class Resource {
 		this.resourceName = resourceName;
 		this.requester = requester;
 	}
-	list() {
-		return this.requester.buildQuery(this.resourceName);
+	list(pagingAndSorting) {
+		return this.requester.buildQuery(this.resourceName, pagingAndSorting);
+	}
+	show(hashedItemId) {
+		return this.requester.buildQuery(this.resourceName + '/' + hashedItemId);
 	}
 	create(data) {
 		return this.requester.buildQuery(this.resourceName, data, {reqMethod: 'POST'});
 	}
-	update(itemId, itemData) {
-		return this.requester.buildQuery(this.resourceName + '/' + itemId, data, {reqMethod: 'PUT'});
+	update(hashedItemId, itemData) {
+		return this.requester.buildQuery(this.resourceName + '/' + hashedItemId, {}, {reqMethod: 'PUT'});
 	}
-	delete(itemId) {
-		return this.requester.buildQuery(this.resourceName, data, {reqMethod: 'DELETE'});
+	delete(hashedItemId) {
+		return this.requester.buildQuery(this.resourceName + '/' + hashedItemId, {}, {reqMethod: 'DELETE'});
 	}
-	copy(itemId, options) {
+	copy(hashedItemId, options) {
 		// TODO /copy
 		return this.requester.buildQuery(this.resourceName, data, {reqMethod: 'POST'});
 	}
