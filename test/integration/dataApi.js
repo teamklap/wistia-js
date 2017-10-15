@@ -13,18 +13,14 @@ test.serial('.projects#create', async t => {
 		name: 'Wistiajs Integration Test Project',
 	});
 
-	console.log('testproject', testProject);
-
 	t.is(testProject.name, 'Wistiajs Integration Test Project');
 });
 
 test.serial('.projects#list', async t => {
 	const projects = await wistia.projects.list();
-
 	const foundTestProject = projects.find(project => project.id === testProject.id);
 
-	console.log(projects);
-	t.deepEqual(testProject, foundTestProject, 'The test project is among the retrieved list of projects');
+	t.deepEqual(testProject, foundTestProject, 'The test project is among the list of retrieved projects');
 });
 
 test.serial('.projects#show', async t => {
