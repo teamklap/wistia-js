@@ -23,12 +23,14 @@
         "url": "https://github.com/xmaestro/wistia-js/issues"
     },
     "dependencies": {
+        "debug": "^3.1.0",
         "request": "^2.75.0"
     },
     "homepage": "https://github.com/xmaestro/wistia-js#readme",
     "devDependencies": {
         "ava": "^0.22.0",
         "babel-cli": "^6.26.0",
+        "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
         "babel-preset-env": "^1.6.0"
     }
 }
