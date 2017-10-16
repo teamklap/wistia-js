@@ -6,8 +6,7 @@ So far tested for:
 - [Wistia Data API](https://wistia.com/doc/data-api)
 - [Wistia Upload API](https://wistia.com/doc/upload-api)
 
-Installation
---------------------------------------
+## Installation
 
 Install it from npm:
 
@@ -15,8 +14,7 @@ Install it from npm:
 $ npm install wistia-js
 ```
 
-Usage
---------------------------------------
+## Usage
 
 ```js
 
@@ -107,11 +105,16 @@ const videoMetadata = await wistiaUpload.upload({
 
 - `upload(params)`
 
-Testing
---------------------------------------
+## Testing
 * Create `test/integration/config.json` from `test/integration/config.example.json`
 * Then:
 
 ```bash
 $ npm run test
+```
+
+* To enable debug messages:
+
+```bash
+$ DEBUG=wistiajs:* DEBUG_LEVEL=verbose npm run test
 ```
