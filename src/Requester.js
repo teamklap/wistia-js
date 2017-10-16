@@ -56,7 +56,7 @@ export default class Requester {
 	 * @param Callback {any}
 	 */
 	_sendRequest(url, method) {
-		debug(`Requesting ${method} ${url}`);
+		debug(`Request ${method} ${url}`);
 		return new Promise((resolve, reject) => {
 			request({
 				url: url,

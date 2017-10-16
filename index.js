@@ -2,6 +2,7 @@
 
 const DataApi = require('./lib/DataApi').default;
 const UploadApi = require('./lib/UploadApi').default;
+const debug = require('debug-levels')('wistiajs:index');
 
 /*
  * @module
@@ -13,7 +14,7 @@ module.exports = function (apiKey, {apiVersion = 'v1', responseFormat = 'json'} 
         throw new Exception('No key provided!');
     }
 
-    console.log('config', apiVersion, responseFormat)
+    debug.verbose(`Wistiajs: api version: ${apiVersion}, response format: ${responseFormat}`);
 
     return {
         //Data API ==> https://wistia.com/doc/data-api

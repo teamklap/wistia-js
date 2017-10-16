@@ -10,12 +10,12 @@ export default class DataApi {
 	constructor(apiKey, options) {
 		const requester = new Requester(apiKey, options);
 
-		this.projects = new Resource('projects', requester);
-		this.medias = new Resource('medias', requester);
-		this.account = new Resource('account', requester);
-		this.customizations = new Resource('customizations', requester);
+		this.projects = new Resource('projects', requester, ['list', 'show', 'create', 'delete', 'update', 'copy']);
+		this.medias = new Resource('medias', requester, ['list', 'show', 'update', 'delete', 'copy', 'stats']);
+		this.account = new Resource('account', requester, ['list']);
+		this.customizations = new Resource('customizations', requester, ['show', 'create', 'update', 'delete']);
 
-		this.projectSharings = new Resource('projectSharings', requester);
+		this.projectSharings = new Resource('projectSharings', requester, []);
 	}
 }
 //

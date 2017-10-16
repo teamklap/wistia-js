@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "debug": "^3.1.0",
+        "debug-levels": "^0.2.0",
         "request": "^2.75.0"
     },
     "homepage": "https://github.com/xmaestro/wistia-js#readme",
