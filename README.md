@@ -16,8 +16,7 @@ $ npm install wistia-js
 
 ## Usage
 
-```js
-
+```javascript
 const wistia = require('wistia-js')('<WISTIA_API_KEY>');
 const wistiaData = Wistia.dataApi();
 const wistiaUpload = Wistia.uploadApi();
@@ -30,7 +29,7 @@ const newProject = await wistia.projects.create({
 });
 
 // Example for Upload API, i.e. using URL
-const videoMetadata = wistiaUpload.upload({
+const videoMetadata = await wistiaUpload.upload({
 	project_id: '<WISTIA_PROJECT_ID>',
 	url: 'http://url/to/video.mp4'
 });
@@ -38,14 +37,14 @@ const videoMetadata = wistiaUpload.upload({
 // Example for Upload API, i.e. using file stream
 const videoMetadata = await wistiaUpload.upload({
 	project_id: '<WISTIA_PROJECT_ID>',
-	file: fs.createReadStream('//path/to/file.mp4')
+	file: fs.createReadStream('./path/to/file.mp4')
 });
-
 ```
+
 * `WISTIA_API_KEY` is the API Password you got from the Wistia dashboard and `WISTIA_PROJECT_ID` is the optional Project ID
 * For the available parameters and responses check the [Wistia documentation](https://wistia.com/doc/developers), sections of which are also linked below
 
-## Wistia Data API Functions
+## [Wistia Data API](https://wistia.com/doc/data-api)
 
 ### [Projects](https://wistia.com/doc/data-api#projects)
 
@@ -91,7 +90,7 @@ const videoMetadata = await wistiaUpload.upload({
 - `update(hashedMediaId, customizationData)`
 - `delete(hashedMediaId)`
 
-### Captions
+### [Captions](https://wistia.com/doc/data-api#captions)
 
 `wistiaData.captions.`
 
@@ -101,7 +100,7 @@ const videoMetadata = await wistiaUpload.upload({
 - `update(hashedMediaId, langCode)`
 - `purchase(hashedMediaId)`
 
-## Wistia Upload API Functions
+## [Wistia Upload API](https://wistia.com/doc/upload-api)
 
 - `upload(params)`
 
