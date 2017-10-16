@@ -44,7 +44,8 @@ const videoMetadata = await wistiaUpload.upload({
 });
 
 ```
-Where **WISTIA_API_KEY** is the API Password you got from the Wistia dashboard and **WISTIA_PROJECT_ID** is the optional Project ID.
+* `WISTIA_API_KEY` is the API Password you got from the Wistia dashboard and `WISTIA_PROJECT_ID` is the optional Project ID
+* For the available parameters and responses check the [Wistia documentation](https://wistia.com/doc/developers), sections of which are also linked below
 
 ## Wistia Data API Functions
 
@@ -63,12 +64,9 @@ Where **WISTIA_API_KEY** is the API Password you got from the Wistia dashboard a
 `wistiaData.account.`
 - `list()`
 
-### Events
+### [Project Sharings](https://wistia.com/doc/data-api#project_sharings)
 
-- `eventRead(event_key,cb)`
-
-
-### Project Sharings
+*Not implemented yet*
 
 - `projectSharingsList(project_id,cb)`
 - `projectSharingsShow(project_id,sharing_id,cb)`
@@ -97,11 +95,13 @@ Where **WISTIA_API_KEY** is the API Password you got from the Wistia dashboard a
 
 ### Captions
 
-- `captionsIndex(media_id,cb)`
-- `captionsCreate(media_id,caption_data,cb)`
-- `captionsShow(media_id,lang_code,cb)`
-- `captionsUpdate(media_id,lang_code,cb)`
-- `captionsPurchase(media_id,cb)`
+`wistiaData.captions.`
+
+- `index(hashedMediaId)`
+- `create(hashedMediaId, captionData)`
+- `show(hashedMediaId, langCode)`
+- `update(hashedMediaId, langCode)`
+- `purchase(hashedMediaId)`
 
 ## Wistia Upload API Functions
 
