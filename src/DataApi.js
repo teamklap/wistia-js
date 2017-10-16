@@ -11,10 +11,11 @@ export default class DataApi {
 		const requester = new Requester(apiKey, options);
 
 		this.projects = new Resource('projects', requester);
-		this.media = new Resource('media', requester);
+		this.medias = new Resource('medias', requester);
 		this.account = new Resource('account', requester);
+		this.customizations = new Resource('customizations', requester);
 
-		this.projectSharings = new Resource ('projectSharings', requester);
+		this.projectSharings = new Resource('projectSharings', requester);
 	}
 }
 //
