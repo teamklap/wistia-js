@@ -18,8 +18,8 @@ $ npm install wistia-js
 
 ```javascript
 const wistia = require('wistia-js')('<WISTIA_API_KEY>');
-const wistiaData = Wistia.dataApi();
-const wistiaUpload = Wistia.uploadApi();
+const wistiaData = wistia.dataApi();
+const wistiaUpload = wistia.uploadApi();
 
 // Example for Data API
 const accountData = await wistiaData.account.list();
