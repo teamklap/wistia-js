@@ -1,7 +1,7 @@
 
 # wistia-js : Node.js package for Wistia APIs
 
-So far tested for:
+Some test coverage for:
 
 - [Wistia Data API](https://wistia.com/doc/data-api)
 - [Wistia Upload API](https://wistia.com/doc/upload-api)
@@ -117,3 +117,9 @@ $ npm run test
 ```bash
 $ DEBUG=wistiajs:* DEBUG_LEVEL=verbose npm run test
 ```
+
+## Known Issues
+
+* Uploading a file with unknown length (such as from an AWS S3 stream) does not seem work.
+	* This could be an issue with the 'content-length' setting of the form-data library, see [here](https://github.com/request/request/issues/2499)
+	* Attempts to implement this using another library were so far fruitless, potentially because Wistia does not currently support it
