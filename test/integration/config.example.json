@@ -1,5 +1,6 @@
 {
-	"apiKey": "<Wistia API key>",
+	"apiPassword": "<Wistia API key>",
 	"projectId": "<ProjectId>",
-	"sampleVideoPath": "./test/integration/testVideo.mp4"
+	"sampleVideoPath": "./test/integration/testVideo.mp4",
+	"sampleVideoUrl": "https://example.com/testVideo.mp4"
 }

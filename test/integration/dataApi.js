@@ -2,7 +2,7 @@ const fs = require('fs');
 const test = require('ava');
 
 const config = require('./config.json');
-const Wistia = require('../../')(config.apiKey);
+const Wistia = require('../../')(config.apiPassword);
 
 const wistia = new Wistia.dataApi();
 
