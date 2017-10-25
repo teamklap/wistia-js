@@ -1,5 +1,5 @@
 import request from 'request';
-import Debug from 'debug';
+import Debug from 'debug-levels';
 
 const debug = Debug('wistiajs:util');
 
@@ -30,11 +30,11 @@ export default class Requester {
 		}
 	}
 
-	buildQuery(endPoint, params = {}, {reqMethod = 'GET', formEncoded = false} = {}) {
+	buildQuery(endPoint, params = {}, {reqMethod = 'GET', formEncoding = false} = {}) {
 		let url = this._buildUrl(endPoint);
 
-		if (formEncoded) {
-			return this._sendRequestUrlEncoded(url, params);
+		if (formEncoding) {
+			return this._sendRequestForm(url, params, formEncoding);
 		}
 
 		// Set params
@@ -80,20 +80,25 @@ export default class Requester {
 	 * @param FormData {Object}
 	 * @param Callback {any}
 	 */
-	_sendRequestUrlEncoded(url, formData) {
-		debug(`Posting form-data to ${url}`);
+	_sendRequestForm(url, form, formEncoding) {
+		debug(`Posting ${formEncoding} to ${url}`);
 		return new Promise((resolve, reject) => {
-			request.post({url: url, formData: formData}, function (error, response, body) {
-				if (error) {
-					reject(error);
-				}
+				const options = {url};
 
-				if (response.statusCode == 200 || response.statusCode == 201) {
-					resolve(JSON.parse(body));
-				} else {
-					reject(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
-				}
-			});
+				// Send request either form-data or x-www-form-urlencoded as default
+				options[formEncoding === 'form-data' ? 'formData' : 'form'] = form;
+
+				request.post(options, function (error, response, body) {
+					if (error) {
+						reject(error);
+					}
+
+					if (response.statusCode == 200 || response.statusCode == 201) {
+						resolve(JSON.parse(body));
+					} else {
+						reject(new Error(`Server responded with error: ${response.statusCode}. Message: ${JSON.parse(body).error}`));
+					}
+				});
 		});
 	}
 }

@@ -16,10 +16,13 @@ export default class UploadApi {
 	* @returns {Promise.<WistiaData>}
 	*/
 	upload(params) {
-		if (typeof params.file === "undefined" && typeof params.url === "undefined") {
-			throw new Error('Please provide file or url path!');
+		if ((typeof params.file === "undefined" && typeof params.url === "undefined") ||
+			(typeof params.file !== "undefined" && typeof params.url !== "undefined")) {
+			throw new Error('Please provide either file or url path!');
 		}
 
-		return this.requester.buildQuery('', params, {reqMethod: 'POST', formEncoded: true});
+		const formEncoding = typeof params.file !== "undefined" ? 'form-data' : 'x-www-form-urlencoded';
+
+		return this.requester.buildQuery('', params, {reqMethod: 'POST', formEncoding});
 	}
 }
