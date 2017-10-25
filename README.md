@@ -105,7 +105,7 @@ const videoMetadata = await wistiaUpload.upload({
 - `upload(params)`
 
 ## Testing
-* Create `test/integration/config.json` from `test/integration/config.example.json`
+* Create `test/integration/config.json`, see `test/integration/config.example.json`
 * Then:
 
 ```bash

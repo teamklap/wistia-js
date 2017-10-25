@@ -1,5 +1,4 @@
 node_modules
-lib
 
 test/integration/config.json
 test/integration/testVideo.mp4
