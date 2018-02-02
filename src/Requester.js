@@ -63,7 +63,7 @@ export default class Requester {
 				method: method
 			}, function (error, response, body) {
 				if (error) {
-					return cb(error);
+					reject(error);
 				}
 
 				if (response.statusCode == 200 || response.statusCode == 201) {
